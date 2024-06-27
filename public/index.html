@@ -3,7 +3,7 @@
 <head>
     <title>Student Portal</title>
     <style>
-        /* CSS goes here */
+        /* Add your CSS styles here */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -23,7 +23,7 @@
         h1 {
             margin-bottom: 20px;
         }
-        input {
+        input, select {
             display: block;
             width: 100%;
             padding: 10px;
@@ -47,31 +47,35 @@
 </head>
 <body>
     <div class="container">
-        <h1>Login</h1>
-        <form id="loginForm">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Login</button>
+        <h1>Student Portal</h1>
+        <form id="enrollmentForm">
+            <input type="text" id="studentId" placeholder="Student ID" required>
+            <select id="subject" required>
+                <option value="">Select Subject</option>
+                <!-- Add subject options here dynamically -->
+            </select>
+            <button type="submit">Get Advice</button>
         </form>
     </div>
 
     <script>
-        // JavaScript goes here
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
+        // JavaScript code for handling form submission
+        document.getElementById('enrollmentForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+            const studentId = document.getElementById('studentId').value;
+            const subject = document.getElementById('subject').value;
 
-            fetch('/login', {
+            fetch('/advice', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({ studentId, subject })
             })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                alert(data);
+                alert(data.message);
+                // Optionally, handle displaying prerequisites or other information
             })
             .catch(error => {
                 console.error('Error:', error);
